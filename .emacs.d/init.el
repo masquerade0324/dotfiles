@@ -67,18 +67,6 @@
 ;; インデントにタブ文字の使用を禁止
 (setq-default indent-tabs-mode nil)
 
-;; フォントをRictyに設定
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:stipple nil :background "black" :foreground "#55FF55" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "unknown" :family "Ricty"))))
- '(cursor ((((class color) (background dark)) (:background "#00AA00")) (((class color) (background light)) (:background "#999999")) (t nil))))
-;; (set-face-attribute 'default nil
-;;                     :family "Ricty"
-;;                     :height 120)
-
 ;; 対応する括弧を強調して表示
 (setq show-paren-delay 0)
 (show-paren-mode t)
@@ -97,5 +85,45 @@
 ;; 更新されたファイルを自動的に再読み込み
 ;; (global-auto-revert-mode t)
 
+;; Markdown Mode
+(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
+(setq markdown-command "pandoc -s --self-contained -t html5 -c ~/.pandoc/github-markdown.css")
+
 ;; Helm
 (require 'helm-config)
+
+;; Flycheck
+(add-hook 'after-init-hook #'global-flycheck-mode)
+(with-eval-after-load 'flycheck (flycheck-pos-tip-mode))
+;; (with-eval-after-load 'flycheck (flycheck-popup-tip-mode))
+
+;; Multi Term
+(when (require 'multi-term nil t)
+  (setq multi-term-program "/bin/dash"))
+
+;; Auto Complete
+(when (require 'auto-complete-config nil t)
+  (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
+  (ac-config-default)
+  (setq ac-use-menu-map t)
+  (setq ac-ignore-case nil))
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:stipple nil :background "black" :foreground "#55FF55" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "unknown" :family "Ricty"))))
+ '(cursor ((((class color) (background dark)) (:background "#00AA00")) (((class color) (background light)) (:background "#999999")) (t nil))))
+;; (set-face-attribute 'default nil
+;;                     :family "Ricty"
+;;                     :height 120)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (auto-complete multi-term magit flycheck-popup-tip flycheck-pos-tip flycheck markdown-mode sml-mode madhat2r-theme helm color-theme-sanityinc-tomorrow))))

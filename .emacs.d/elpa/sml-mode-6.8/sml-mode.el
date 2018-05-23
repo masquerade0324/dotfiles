@@ -122,7 +122,7 @@
   "Editing SML code."
   :group 'languages)
 
-(defcustom sml-indent-level 4
+(defcustom sml-indent-level 2
   "Basic indentation step for SML code."
   :type 'integer)
 
