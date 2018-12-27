@@ -55,8 +55,8 @@
 
 ;; モードラインに時刻を表示
 ;; (setq display-time-day-and-date t) ; 曜日・月・日を表示
-(setq display-time-24hr-format t)     ; 24時間表示
-(display-time-mode t)
+;; (setq display-time-24hr-format t)     ; 24時間表示
+;; (display-time-mode t)
 
 ;; タイトルバーにファイルのフルパスを表示
 (setq frame-title-format "%f")
@@ -87,7 +87,8 @@
 
 ;; Markdown Mode
 (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
-(setq markdown-command "pandoc -s --self-contained -t html5 -c ~/.pandoc/github-markdown.css")
+;; (setq markdown-command "pandoc -s --self-contained -f gfm -t html -c ~/.pandoc/github-markdown.css")
+(setq markdown-command "jq --slurp --raw-input '{\"text\": \"\\(.)\", \"mode\": \"gfm\"}' | curl -sS --data @- https://api.github.com/markdown")
 
 ;; Helm
 (require 'helm-config)
